@@ -8,16 +8,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestController 
 {
+    #[Route("/", name:"index")]
     public function index()
     {
-        var_dump('ca fonctionne');
-        die();
+        dump('ca fonctionne');
+        return new Response ("éviter le die lors d'un simple dump");
+       
     }
     
-    /*
-    * @Route("/test/{age<\d+>?0}",name="test", methods={"GET", "POST"};
-    hots="localhost", schemes={"http","https"})
-    */
+    
+    #[Route("/test/{age<\d+>?0}",name:"test", methods:["GET", "POST"],
+     schemes:["http","https"])]
+    
     public function test(Request $request, $age)
     {
         // $request = Request::createFromGlobals();
