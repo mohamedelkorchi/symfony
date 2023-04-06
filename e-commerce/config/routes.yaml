@@ -2,10 +2,11 @@ index:
    path: /
    controller: App\Controller\TestController::index
 
-test:
-  path: /test/{age<\d+>?0}
-  controller: App\Controller\TestController::test
-  # defaults:
-  #   age: 0
-  # requirements:
-  #   age: \d+
+# test:
+#   path: /test/{age<\d+>?0}
+#   controller: App\Controller\TestController::test
+#   methods: [POST, GET]
+#   # defaults:
+#   #   age: 0
+#   # requirements:
+#   #   age: \d+
