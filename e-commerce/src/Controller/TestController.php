@@ -2,16 +2,26 @@
 
 namespace App\Controller;
 
+use App\Controller\Taxes\Calculator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TestController 
 {
+    // protected $calculator;
+    // public function __construct(Calculator $calculator)
+    // {
+    //     $this->calculator = $calculator;
+    // }
+ 
+
     #[Route("/", name:"index")]
     public function index()
     {
-        dump('ca fonctionne');
+    //     $tva = $this->calculator->calcul(1400);
+    //     dump($tva);
+    dump("ca fonctionne");
         return new Response ("éviter le die lors d'un simple dump");
        
     }
@@ -31,6 +41,7 @@ class TestController
         // if  (!empty($_GET["age"])){
         //     $age = $_GET["age"];
         // }
+       
         dump("t'as $age ans");
         return new Response("vous avez $age ans bg");
         
