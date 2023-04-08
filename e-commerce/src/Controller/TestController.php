@@ -9,18 +9,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TestController 
 {
-    // protected $calculator;
-    // public function __construct(Calculator $calculator)
-    // {
-    //     $this->calculator = $calculator;
-    // }
+    protected $calculator;
+    public function __construct(Calculator $calculator)
+    {
+        $this->calculator = $calculator;
+    }
  
 
     #[Route("/", name:"index")]
-    public function index()
+    public function index(Calculator $calculator)
     {
-    //     $tva = $this->calculator->calcul(1400);
-    //     dump($tva);
+        $tva = $calculator->calcul(1400);
+        dump($tva);
     dump("ca fonctionne");
         return new Response ("éviter le die lors d'un simple dump");
        
