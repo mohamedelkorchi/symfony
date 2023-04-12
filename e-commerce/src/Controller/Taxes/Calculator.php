@@ -12,9 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class Calculator extends AbstractController
 {
     protected $logger;
-    public function __construct(LoggerInterface $logger)
+    protected $tva;
+    public function __construct(LoggerInterface $logger, float $tva)
     {
         $this->logger = $logger;
+        $this->tva = $tva;
     }
     public function calcul(float $prix):float
     {
