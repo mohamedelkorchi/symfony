@@ -11,6 +11,8 @@
         "doctrine/doctrine-bundle": "^2.9",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
+        "liorchamla/faker-prices": "^2.0",
+        "mbezhanov/faker-provider-collection": "^2.0",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
@@ -23,6 +25,8 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "fakerphp/faker": "1.13",
         "symfony/maker-bundle": "^1.48"
     },
     "config": {
@@ -63,6 +67,12 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "fixtures": [
+            "php bin/console d:d:d --force",
+            "php bin/console d:d:c",
+            "php bin/console d:s:u --force",
+            "php bin/console d:f:l --append"
         ]
     },
     "conflict": {
