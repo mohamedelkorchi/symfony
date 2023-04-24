@@ -13,6 +13,7 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new \Liior\Faker\Prices($faker));
+        $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
 
         for ($p=0; $p <100 ; $p++)
         { 
