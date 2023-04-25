@@ -13,11 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function homepage(): Response
+    public function homepage(ProductRepository $productRepository): Response
     {
+       $products = $productRepository->findBy([],[],3);
        
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            "products" => $products
         ]);
     }
 }
