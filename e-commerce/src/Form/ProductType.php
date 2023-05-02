@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Form\DataTransformer\CentimesTransformer;
+use App\Form\Type\PriceType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -15,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductType extends AbstractType
@@ -29,11 +31,12 @@ class ProductType extends AbstractType
                 ->add("shortDescription", TextareaType::class, [
                     "label"=>"Description courte",
                     "attr"=>[ "placeholder"=>"Tapez une description assez courte mais parlante pour le visiteur" ]
-                ])
-                ->add("price", MoneyType::class, [
-                    "label"=>"Prix du produit",
-                    "attr"=>[ "placeholder"=>"Tapez le prix du produit en €" ],
-                    "divisor" => 100
+                    ])
+                    ->add("price", MoneyType::class, [
+                        "label"=>"Prix du produit",
+                        "attr"=>[ "placeholder"=>"Tapez le prix du produit en €" ],
+                        "divisor" => 100
+                    
                     ])
                 ->add("mainPicture", UrlType::class, [
                     "label"=>"Image du produit",

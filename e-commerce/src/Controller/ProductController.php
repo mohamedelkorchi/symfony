@@ -78,7 +78,7 @@ class ProductController extends AbstractController
 
         if($form->isSubmitted())
         {
-          dd($form->getData());
+        //   dd($form->getData());
             $em->flush();
            
             // $url = $urlGenerator->generate("product_show", [
