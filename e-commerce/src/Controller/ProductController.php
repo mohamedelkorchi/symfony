@@ -25,6 +25,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProductController extends AbstractController
 {
@@ -66,8 +70,27 @@ class ProductController extends AbstractController
     }
     #[Route('/admin/product/{id}/edit', name: 'product_edit')]
     public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, 
-    UrlGeneratorInterface $urlGenerator)
+    ValidatorInterface $validator)
     {
+        $age= 200;
+
+        $resultat = $validator->validate($age, [
+            new LessThanOrEqual([
+                "value"=> 120,
+                "message" => "L'age doit etre inferieur ou egal à {{ compared_value }} mais vous avez donné {{ value }} "
+            ]),
+            new GreaterThan([
+                "value" => 0,
+                "message" => "L'age doit etre superieur à 0!"
+            ])
+        ]);
+
+        if($resultat->count() > 0)
+        {
+            dd("il y a des erreurs", $resultat);
+        }
+        dd("tout va bien");
+
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
