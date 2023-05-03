@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Validator\Constraints\Collection;
+
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\GreaterThan;
@@ -75,26 +76,18 @@ class ProductController extends AbstractController
     public function edit($id, ProductRepository $productRepository, Request $request, EntityManagerInterface $em, 
     ValidatorInterface $validator)
     {
-        $product = new Product;
-        
-
-        $resultat = $validator->validate($product);
-
-        if($resultat->count() > 0)
-        {
-            dd("il y a des erreurs", $resultat);
-        }
-        dd("tout va bien");
+      
 
         $product = $productRepository->find($id);
 
         $form = $this->createForm(ProductType::class, $product);
+        
 
         // $form->setData($product);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
         //   dd($form->getData());
             $em->flush();
@@ -129,7 +122,7 @@ class ProductController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted())
+        if ($form->isSubmitted() && $form->isValid())
         {
             $product = $form->getData();
             $product->setSlug(strtolower($slugger->slug($product->getName())));

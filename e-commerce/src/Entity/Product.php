@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -18,37 +18,47 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[NotBlank("message" ="LE NOM DU PRODUIT EST OBLIGATOIRE ")]
-    
-    @Assert\Length(min=3 ,max= 255 , minMessage="minErrorMessage");
+    #[Assert\NotBlank(message: "LE NOM DU PRODUIT EST OBLIGATOIRE ")]
+    #[Assert\Length(min: 3 ,max: 255 , minMessage: "minErrorMessage")]
 
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "LE PRIX DU PRODUIT EST OBLIGATOIRE ")]
+
     private ?int $price = null;
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
+    #[Assert\NotBlank(message: "Choississez une catégorie svp ")]
+
     private ?Category $category = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Url(message: "L'image doit etre une URL valide  ")]
+    #[Assert\NotBlank(message: "L'image DU PRODUIT EST OBLIGATOIRE ")]
+    
+    
     private ?string $mainPicture = null;
-
+    
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "La description courte est obligatoire ")]
+    #[Assert\Length(min: 20, minMessage: "La description doit faire au minimum 20 caractères")]
+
     private ?string $shortDescription = null;
 
     // public static function loadValidatorMetadata(ClassMetadata $metadata) {
 
     //     $metadata->addPropertyConstraints("name", [
-    //         new NotBlank(["message" => "Nom du produit obligatoire"]),
-    //         new Length(["min" => 3,
+    //         new Assert\NotBlank(["message" => "Nom du produit obligatoire"]),
+    //         new Assert\Length(["min" => 3,
     //                     "max" => 255,
     //                     "minMessage" => " Minimum 3 caractères !"])
     //     ]);
 
-    //     $metadata->addPropertyConstraint("price", new NotBlank(["message" => "Prix obligatoire !"]));
+    //     $metadata->addPropertyConstraint("price", new Assert\NotBlank(["message" => "Prix obligatoire !"]));
     // }
 
     public function getId(): ?int
@@ -61,7 +71,7 @@ class Product
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -73,7 +83,7 @@ class Product
         return $this->price;
     }
 
-    public function setPrice(int $price): self
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
 
@@ -109,7 +119,7 @@ class Product
         return $this->mainPicture;
     }
 
-    public function setMainPicture(string $mainPicture): self
+    public function setMainPicture(?string $mainPicture): self
     {
         $this->mainPicture = $mainPicture;
 
@@ -121,7 +131,7 @@ class Product
         return $this->shortDescription;
     }
 
-    public function setShortDescription(string $shortDescription): self
+    public function setShortDescription(?string $shortDescription): self
     {
         $this->shortDescription = $shortDescription;
 
