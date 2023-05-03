@@ -5,6 +5,9 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -15,6 +18,10 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[NotBlank("message" ="LE NOM DU PRODUIT EST OBLIGATOIRE ")]
+    
+    @Assert\Length(min=3 ,max= 255 , minMessage="minErrorMessage");
+
     private ?string $name = null;
 
     #[ORM\Column]
@@ -31,6 +38,18 @@ class Product
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $shortDescription = null;
+
+    // public static function loadValidatorMetadata(ClassMetadata $metadata) {
+
+    //     $metadata->addPropertyConstraints("name", [
+    //         new NotBlank(["message" => "Nom du produit obligatoire"]),
+    //         new Length(["min" => 3,
+    //                     "max" => 255,
+    //                     "minMessage" => " Minimum 3 caractères !"])
+    //     ]);
+
+    //     $metadata->addPropertyConstraint("price", new NotBlank(["message" => "Prix obligatoire !"]));
+    // }
 
     public function getId(): ?int
     {
