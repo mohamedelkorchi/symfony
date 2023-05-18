@@ -4,8 +4,9 @@ namespace App\DataFixtures;
 
 use Generator;
 use Faker\Factory;
-use App\Entity\Product;
+use App\Entity\User;
 
+use App\Entity\Product;
 use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -24,6 +25,25 @@ class AppFixtures extends Fixture
         $faker->addProvider(new \Liior\Faker\Prices($faker));
         $faker->addProvider(new \Bezhanov\Faker\Provider\Commerce($faker));
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker));
+        
+
+      $admin = new User;
+
+      $admin->setEmail("admin@gmail.com")
+            ->setPassword("password")
+            ->setFullName("Admin")
+            ->setRoles(["ROLE_ADMIN"]);
+
+      $manager->persist($admin);
+
+      for ($u = 0; $u < 5; $u++) {
+        $user = new User();
+        $user->setEmail("user$u@gmail.com")
+            ->setFullName($faker->name())
+            ->setPassword("password");
+
+        $manager->persist($user);
+      }
 
         for ($c=0; $c <3 ; $c++)
         { 
