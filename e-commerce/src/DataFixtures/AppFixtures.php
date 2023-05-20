@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
 
       $admin = new User;
 
-      $hash = $this->encoder->encodePassword($admin, "password");
+      $hash = $this->encoder->encodePassword($admin, "123456");
 
       $admin->setEmail("admin@gmail.com")
             ->setPassword($hash)

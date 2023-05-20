@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 
@@ -45,6 +46,20 @@ class LoginFormAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        $errorMsg = "Erreur d'authentification"; 
+
+        if ($exception->getMessage() === "Bad credentials.") 
+        {
+            $errorMsg = "Cette adresse email n'est pas connue.";
+        } elseif ($exception->getMessage() === "The presented password is invalid.") 
+        {
+            $errorMsg = "Le mot de passe ne correspond pas";
+        }
+
+        $exception = new AuthenticationException($errorMsg);
+
+        $request->attributes->set(Security::LAST_USERNAME, $request->request->all()['login']['email']);
+        $request->attributes->set(Security::AUTHENTICATION_ERROR, $exception);
         return null;
     }
 
