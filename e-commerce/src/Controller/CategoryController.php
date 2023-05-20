@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
 class CategoryController extends AbstractController
 {
@@ -43,8 +44,10 @@ class CategoryController extends AbstractController
 
     #[Route('/admin/category/{id}/edit', name: 'category_edit')]
     public function edit($id, CategoryRepository $categoryRepository, EntityManagerInterface $em,
-    Request $request, SluggerInterface $slugger ): Response
+    Request $request, SluggerInterface $slugger, Security $security ): Response
     {
+        $this->denyAccessUnlessGranted("ROLE_ADMIN", null, "Vous n'avez pas acces à cette page !");
+
         $category = $categoryRepository->find($id);
 
         $form = $this->createForm(CategoryType::class, $category );
