@@ -7,11 +7,12 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 class CategoryController extends AbstractController
 {
@@ -43,10 +44,11 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/admin/category/{id}/edit', name: 'category_edit')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit($id, CategoryRepository $categoryRepository, EntityManagerInterface $em,
     Request $request, SluggerInterface $slugger, Security $security ): Response
     {
-        $this->denyAccessUnlessGranted("ROLE_ADMIN", null, "Vous n'avez pas acces à cette page !");
+        // $this->denyAccessUnlessGranted("ROLE_ADMIN", null, "Vous n'avez pas acces à cette page !");
 
         $category = $categoryRepository->find($id);
 
