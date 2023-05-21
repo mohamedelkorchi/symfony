@@ -44,13 +44,15 @@ class CategoryController extends AbstractController
     }
 
     #[Route('/admin/category/{id}/edit', name: 'category_edit')]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_ADMIN', message:"Vous n'etes pas l'admin ")]
     public function edit($id, CategoryRepository $categoryRepository, EntityManagerInterface $em,
     Request $request, SluggerInterface $slugger, Security $security ): Response
     {
         // $this->denyAccessUnlessGranted("ROLE_ADMIN", null, "Vous n'avez pas acces à cette page !");
-
+        
         $category = $categoryRepository->find($id);
+
+        // $this->denyAccessUnlessGranted("CAN_EDIT", $category, "Seul le créateur d'une catégorie peut la modifier");
 
         $form = $this->createForm(CategoryType::class, $category );
 

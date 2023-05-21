@@ -66,5 +66,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator
    public function start(Request $request, AuthenticationException $authException = null): Response
    {
        return new RedirectResponse('/login');
+    //    return $this->redirectToRoute('/login');
    }
 }
