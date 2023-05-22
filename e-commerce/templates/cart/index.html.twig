@@ -5,6 +5,9 @@
 {% block body %}
     <h1>Votre panier</h1>
 
+    {% if items | length > 0 %}
+        
+
     <table class="table">
         <thead>
             <tr>
@@ -22,7 +25,7 @@
                     <td> {{ item.product.name }}</td>
                     <td> {{ item.product.price }}</td>
                     <td>
-                     <a href={{ path("cart_add", {"id": item.product.id}) }} class="btn btn-sm btn-primary">
+                     <a href="{{ path("cart_add", {"id": item.product.id}) }}?returnToCart=true" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus"></i>
                      </a>
                      {{ item.qty }}
@@ -47,4 +50,7 @@
             </tr>
         </tfoot>
     </table>
+    {% else %}
+        <h4>Votre panier est vide</h4>
+    {% endif %}
 {% endblock %}
