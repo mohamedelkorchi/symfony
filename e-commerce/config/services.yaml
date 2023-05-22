@@ -38,4 +38,7 @@ services:
         arguments:
             $seuil: 100
 
-    Cocur\Slugify\Slugify: ~        
+    Cocur\Slugify\Slugify: ~   
+
+    App\cart\CartItem:
+        $qty: "%qty%"
