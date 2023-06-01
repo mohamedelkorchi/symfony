@@ -9,6 +9,7 @@ use App\Entity\User;
 
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\PurchaseItem;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -59,6 +60,8 @@ class AppFixtures extends Fixture
         $manager->persist($user);
       }
 
+        $products = [];
+
         for ($c=0; $c <3 ; $c++)
         { 
             $category = new Category;
@@ -78,6 +81,8 @@ class AppFixtures extends Fixture
                     ->setShortDescription($faker->paragraph())
                     ->setMainPicture($faker->imageUrl(400,400, true));
 
+            $products[] = $product;
+
             $manager->persist($product);       
         }
       }
@@ -91,7 +96,28 @@ class AppFixtures extends Fixture
                   ->setPostalCode($faker->postcode)
                   ->setCity($faker->city)
                   ->setUser($faker->randomElement($users))
-                  ->setTotal(mt_rand(2000,30000));
+                  ->setTotal(mt_rand(2000,30000))
+                  ->setPurchasedAt(\DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-6 months')));
+                  // ->setPurchasedAt($faker->dateTimeBetween("-6 months"));
+
+          $selectedProducts = $faker->randomElements($products, mt_rand(2,4));
+
+          $totalSelectedProductsAmount = 0;
+          foreach($selectedProducts as $product) {
+            $purchaseItem = new PurchaseItem;
+            $purchaseItem->setProduct($product)
+                          ->setQuantity(mt_rand(1, 3))
+                          ->setProductName($product->getName())
+                          ->setProductPrice($product->getPrice())
+                          ->setTotal(
+                            $purchaseItem->getProductPrice() * $purchaseItem->getQuantity()
+                          )
+                          ->setPurchase($purchase);
+
+            $manager->persist($purchaseItem);
+            $totalSelectedProductsAmount += $purchaseItem->getTotal();
+          }
+          $purchase->setTotal($totalSelectedProductsAmount);
 
           if($faker->boolean(90))
           {
