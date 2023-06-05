@@ -102,7 +102,9 @@ class AppFixtures extends Fixture
 
           $selectedProducts = $faker->randomElements($products, mt_rand(2,4));
 
+          
           $totalSelectedProductsAmount = 0;
+
           foreach($selectedProducts as $product) {
             $purchaseItem = new PurchaseItem;
             $purchaseItem->setProduct($product)
@@ -116,8 +118,10 @@ class AppFixtures extends Fixture
 
             $manager->persist($purchaseItem);
             $totalSelectedProductsAmount += $purchaseItem->getTotal();
+
           }
           $purchase->setTotal($totalSelectedProductsAmount);
+
 
           if($faker->boolean(90))
           {
