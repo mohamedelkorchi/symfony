@@ -52,15 +52,25 @@
     </table>
 
     <hr>
-    <h2>  Confirmez votre commande avec le formulaire  </h2>
 
-    {{ form_start(confirmationForm, {"action": path("purchase_confirm")}) }}
+    {% if app.user %}
+        
+        <h2>  Confirmez votre commande avec le formulaire  </h2>
 
-    {{ form_widget(confirmationForm) }}
+        {{ form_start(confirmationForm, {"action": path("purchase_confirm")}) }}
 
-    <button type="submit" class="btn btn-success">Je confirme !</button>    
+        {{ form_widget(confirmationForm) }}
 
-    {{ form_end(confirmationForm) }}
+        <button type="submit" class="btn btn-success">Je confirme !</button>    
+
+        {{ form_end(confirmationForm) }}
+
+    {% else %}
+        <h2>Vous devez etre connecté</h2>
+        <a href="{{ path("security_login") }}" class="btn btn-success">Connexion</a>
+        ou 
+        <a href="#">Creez un compte</a>
+    {% endif %}
 
     {% else %}
         <h4>Votre panier est vide</h4>
