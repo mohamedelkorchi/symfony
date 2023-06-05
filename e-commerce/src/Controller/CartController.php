@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\cart\CartService;
+use App\Form\CartConfirmationType;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+
 
 class CartController extends AbstractController
 {
@@ -50,14 +51,19 @@ class CartController extends AbstractController
     }
 
     #[Route('/cart', name: 'cart_show')]
+    // #[IsGranted('ROLE_USER', message:"Vous n'etes pas connecté ")]
     public function show(){
 
+        $form = $this->createForm(CartConfirmationType::class);
+
         $detailedCart = $this->cartService->getDetailedCartItems();
+
         $total = $this->cartService->getTotal();
 
         return $this->render("cart/index.html.twig", [
             "items" => $detailedCart,
-            "total" => $total
+            "total" => $total,
+            "confirmationForm" => $form->createView()
         ]);
     }
 
