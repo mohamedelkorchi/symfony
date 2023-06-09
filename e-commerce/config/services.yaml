@@ -42,3 +42,8 @@ services:
 
     App\cart\CartItem:
         $qty: "%qty%"
+
+    App\Stripe\StripeService:
+        arguments:
+            $secretKey: "%env(STRIPE_SECRET_KEY)%"
+            $publicKey: "%env(STRIPE_PUBLIC_KEY)%"
