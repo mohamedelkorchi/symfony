@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5">
+		<h1>
+			Panier
+		</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					{# <th>Produit</th> #}
+					<th>Nom</th>
+					<th>Prix
+					</th>
+					<th>Quantité</th>
+					<th>Total</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for detail_produit in panier %}
+					<tr>
+						{# <td><img src="/images/{{ detail_produit.image }}"class="img-thumbnail"></td> #}
+
+						<td>{{ detail_produit.Name }}
+						</td>
+						<td class="text-nd">{{ detail_produit.Prix }}€</td>
+						<td class="text-nd">{{ detail_produit.quantite}}</td>
+						<td class="text-nd">{{ detail_produit.Prix * detail_produit.quantite  }}€</td>
+
+						<td>
+							<a href="{{path("app_add_panier",{id : detail_produit.id})}}" class="btn btn-success">
+								<i class="bi bi-cart-plus"></i>
+							</a>
+
+							<a href="{{path("app_remove",{id : detail_produit.id})}}" class="btn btn-warning">
+								<i class="bi bi-cart-dash"></i>
+							</a>
+
+							<a href="{{path("app_clear_produit",{id : detail_produit.id})}}" class="btn btn-danger">
+								<i class="bi bi-cart-x"></i>
+							</a>
+
+						</td>
+					</tr>
+
+
+				{% else %}
+					<tr>
+						<td colspan="5" class="text-center ">
+						<i><b>
+							Votre panier est vide
+						</b></i>
+						
+						</td>
+					</tr>
+				{% endfor %}
+			
+            {% if panier | length > 0 %}
+			    <tfoot>
+				    <tr>
+				    	<td colspan="4">Total</td>
+					    <td class="text-center">{{ total }}€</td>
+				    </tr>
+			    </tfoot>
+            {% endif %}
+		    </tbody>
+        </table>    
+
+	</div>
+
+	{% if panier | length > 0 %}
+
+
+		<div class="text-center">
+			<a class="btn btn-primary mb-5 vider" href="/clear">Vider le panier</a>
+			<a class="btn btn-warning mb-5 valider" href="/checkout">Valider la commande</a>
+		</div>
+
+	{% endif %}
+
+
+{% endblock %}

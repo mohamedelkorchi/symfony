@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail du produit{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+        <div class="row">
+            <div class="card" style="width: 18rem;">
+                <img src="/images/{{ detail_produit.image }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text">{{ detail_produit.Name}}  </p>
+                        <p> {{ detail_produit.Description}} </p>
+                        <p> {{ detail_produit.Prix}}€</p>
+                        <p> <a class="btn btn-primary" href="/add/{{ detail_produit.id }}">Ajouter au panier</a> </p>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

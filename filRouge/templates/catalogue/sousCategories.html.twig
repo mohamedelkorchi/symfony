@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sous Catégories{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="row">
+
+            {% for item in liste_souscategories %}
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 ">
+                        <div class="bordure-grise px-3 pt-3 mb-3 shadow">
+                            <a href="/souscategories/{{ item.id }}">
+                                <img class="img-fluid w-100" src="/images/{{ item.image }}" >
+                                <h4 class="text-center">
+                                {{ item.SousCatNom}}
+                                </h4>
+                            </a>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+   
+
+{% endblock %}

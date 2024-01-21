@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-mainbg">
+  <div class="container-fluid">
+
+	<a class="navbar-brand navbar-logo" href="/">Bienvenue</a>
+	<button class="navbar-toggler burger " type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<i class="bi bi-arrow-bar-down burger"></i>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="/categorie/1">
+					<i class=""></i>Hommes</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/categorie/2">
+					<i class=""></i>Femmes</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/categorie/3">
+					<i class=""></i>Enfants</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/panier">
+					{% if panier %}
+						{% set total = 0 %}
+						{% for item in panier %}
+							{% set total = total + item.quantite %}
+						{% endfor %}
+						{{ total }}
+					{% endif %}
+					{# {{ app.session.get("panier") | length }} #}
+					<i class="bi bi-cart"></i>
+					Panier
+				</a>
+			</li>
+			{# <li class="nav-item">
+				{% if app.user %}
+					<a class="nav-link" href="/logout">
+						<i class=""></i>Déconnexion</a>
+				{% else %}
+					<a class="nav-link" href="/login">
+						<i class=""></i>Connexion</a>
+				{% endif %}
+
+			</li> #}
+
+				{% if app.user %}
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle bi bi-file-person-fill" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								{# <i class=""></i> #}
+								
+						</a>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#">Profil</a></li>
+									<li><a class="dropdown-item" href={{path('app_commandes', {'id' : app.user.id})}}>Mes commandes</a></li>
+									<li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
+								</ul>
+					</li>
+				{% else %}
+				<li class="nav-item">
+					<a class="nav-link bi bi-file-person-fill" href="/login" role="button">Connexion</a>
+						
+					
+				</li>
+				{% endif %}
+
+		</ul>
+	</div>
+
+	</div>
+</nav>

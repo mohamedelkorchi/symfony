@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes{% endblock %}
+
+{% block body %}
+
+
+
+{% set total = 0 %}
+{% for sc in commande.seComposes %}
+    {% set total = total + (sc.produit.prix * sc.quantite) %}
+{% endfor %} 
+
+
+<div class="container">
+    <h2><p>Commandé le {{commande.dateCommande | date("d/m/Y") }} </p></h2>
+
+    <table class="table table-striped table-dark ">
+        <tr>
+        <th>ref</th>
+        <th>img</th>
+        <th>prix</th>
+        <th>Quantité</th>
+        </tr>
+        
+        {% for com in commande.seComposes %}
+            <tr>
+            <td>{{com.produit.name}}</td>
+            <td><img src="/images/{{com.produit.image}}" /></td>
+            <td>{{com.produit.prix}}</td>
+            <td>{{com.quantite}}</td>
+            </tr>
+        {% endfor %}
+
+    </table>
+    <h3>{{ total | format_currency('EUR', locale='fr') }}</h3>
+</div>
+
+
+
+{% endblock %}
+
+
+
+
